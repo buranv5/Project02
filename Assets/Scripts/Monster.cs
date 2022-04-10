@@ -22,7 +22,7 @@ public class Monster : NonPlayerCharacter
         waypoints[2] = new Vector2(spawnLocation.x, spawnLocation.y - freeRadius);
         waypoints[3] = new Vector2(spawnLocation.x + freeRadius, spawnLocation.y);
         waypoints[4] = new Vector2(spawnLocation.x - freeRadius, spawnLocation.y);
-        
+        StartCoroutine(AnimationControl());
         StartCoroutine(directionDetermining());
     }
 
@@ -30,33 +30,38 @@ public class Monster : NonPlayerCharacter
         Vector2 vector2position = new Vector2(transform.position.x , transform.position.y);
         rigidbody.velocity = (waypoint - vector2position) * moveSpeed * Time.deltaTime;
 
-        if (rigidbody.velocity != Vector2.zero) {
+    }
 
-            animator.SetBool("Running", true);
+    IEnumerator AnimationControl() {
+        while (true) {
 
-            if (rigidbody.velocity.y > 0) {
-                animator.SetBool("FaceToCamera", false);
-            } else if (rigidbody.velocity.y < 0) {
-                animator.SetBool("FaceToCamera", true);
-            }
+            if (rigidbody.velocity != Vector2.zero) {
 
-            if (rigidbody.velocity.x > 0) {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
+                animator.SetBool("Running", true);
+
+                if (rigidbody.velocity.y > 0) {
+                    animator.SetBool("FaceToCamera", false);
+                } else if (rigidbody.velocity.y < 0) {
+                   animator.SetBool("FaceToCamera", true);
+                }
+
+                if (rigidbody.velocity.x > 0) {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                } else {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+
             } else {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+                animator.SetBool("Running", false);
             }
 
-
-        } else {
-            animator.SetBool("Running", false);
+            yield return null;
         }
-
     }
 
     IEnumerator directionDetermining() {
         while (true) {
             waypoint = waypoints[Random.Range(0, 5)];
-            Debug.Log(waypoint);
             yield return new WaitForSeconds(delay);
         }
     }
