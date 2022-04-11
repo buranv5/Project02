@@ -4,11 +4,11 @@ using System.Collections;
 public class Monster : NonPlayerCharacter
 {
     [SerializeField] private protected float freeRadius;
-    [SerializeField] private protected float delay; //changing the direction of movement delay
+    [SerializeField] private protected float delay; //changing the direction of movement max delay
 
     private protected Vector2 spawnLocation;
-    private Vector2 waypoint;
-    private Vector2[] waypoints = new Vector2[5];
+    private Vector2 goingVector;
+    private Vector2 vector2position;
 
     private protected override void Awake() {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -17,19 +17,13 @@ public class Monster : NonPlayerCharacter
 
     private protected void Start() {
         spawnLocation = transform.position;
-        waypoints[0] = spawnLocation;
-        waypoints[1] = new Vector2(spawnLocation.x, spawnLocation.y + freeRadius);
-        waypoints[2] = new Vector2(spawnLocation.x, spawnLocation.y - freeRadius);
-        waypoints[3] = new Vector2(spawnLocation.x + freeRadius, spawnLocation.y);
-        waypoints[4] = new Vector2(spawnLocation.x - freeRadius, spawnLocation.y);
         StartCoroutine(AnimationControl());
         StartCoroutine(directionDetermining());
     }
 
     private protected override void Update() {
-        Vector2 vector2position = new Vector2(transform.position.x , transform.position.y);
-        rigidbody.velocity = (waypoint - vector2position) * moveSpeed * Time.deltaTime;
-
+        vector2position = new Vector2(transform.position.x , transform.position.y);
+        rigidbody.velocity = goingVector * moveSpeed * Time.deltaTime;
     }
 
     IEnumerator AnimationControl() {
@@ -61,8 +55,12 @@ public class Monster : NonPlayerCharacter
 
     IEnumerator directionDetermining() {
         while (true) {
-            waypoint = waypoints[Random.Range(0, 5)];
-            yield return new WaitForSeconds(delay);
+            if (Vector2.Distance(transform.position, spawnLocation) > freeRadius)  {
+                goingVector = (spawnLocation - vector2position);
+            } else {
+                goingVector = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+            }
+            yield return new WaitForSeconds(Random.Range(0, delay));
         }
     }
 
