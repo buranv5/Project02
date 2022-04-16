@@ -9,7 +9,7 @@ public abstract class NonPlayerCharacter : MonoBehaviour
     private protected Rigidbody2D rigidbody;
     private protected Animator animator;
 
-    private protected virtual void Awake() {
+    private protected void Awake() {
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();    
     }

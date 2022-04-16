@@ -3,17 +3,10 @@ using System.Collections;
 
 public class Monster : NonPlayerCharacter
 {
-    [SerializeField] private protected float freeRadius;
-    [SerializeField] private protected float delay; //changing the direction of movement max delay
-
-    private protected Vector2 spawnLocation;
-    private Vector2 goingVector;
-    private Vector2 vector2position;
-
-    private protected override void Awake() {
-        rigidbody = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-    }
+    [SerializeField] private float freeRadius;
+    [SerializeField] private float delay; // changing the direction of movement max delay
+     
+    private Vector2 spawnLocation, goingVector;
 
     private protected void Start() {
         spawnLocation = transform.position;
@@ -21,14 +14,12 @@ public class Monster : NonPlayerCharacter
         StartCoroutine(directionDetermining());
     }
 
-    private protected override void Update() {
-        vector2position = new Vector2(transform.position.x , transform.position.y);
-        rigidbody.velocity = goingVector * moveSpeed * Time.deltaTime;
-    }
-
+    private protected override void Update() { 
+        rigidbody.velocity = goingVector * moveSpeed * Time.deltaTime; 
+    } 
+    
     IEnumerator AnimationControl() {
         while (true) {
-
             if (rigidbody.velocity != Vector2.zero) {
 
                 animator.SetBool("Running", true);
@@ -56,6 +47,7 @@ public class Monster : NonPlayerCharacter
     IEnumerator directionDetermining() {
         while (true) {
             if (Vector2.Distance(transform.position, spawnLocation) > freeRadius)  {
+                Vector2 vector2position = new Vector2(transform.position.x, transform.position.y);
                 goingVector = (spawnLocation - vector2position);
             } else {
                 goingVector = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));

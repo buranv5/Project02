@@ -6,12 +6,12 @@ public class PlayerControler : MonoBehaviour
 { 
     [SerializeField] private float moveSpeed;
     [SerializeField] private FixedJoystick joystick;
-    [SerializeField] private GameObject renderer;
-    [SerializeField] private Animator animator;
+    private Animator animator;
     private Rigidbody2D rigidbody;
 
     void Awake() {
         rigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Update() {
@@ -23,9 +23,9 @@ public class PlayerControler : MonoBehaviour
         }
 
         if (rigidbody.velocity.x < 0) {
-            renderer.transform.rotation = Quaternion.Euler(0, 180, 0);
+            transform.rotation = Quaternion.Euler(0, 180, 0);
         } else {
-            renderer.transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 }

@@ -60,11 +60,12 @@
     <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
+    <Compile Include="Assets\Scripts\Monster.cs" />
+    <Compile Include="Assets\Scripts\NonPlayerCharacter.cs" />
     <Compile Include="Assets\Scripts\PlayerControler.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
     <Compile Include="Assets\Scripts\MapGenerator.cs" />
-    <Compile Include="Assets\Scripts\NonPlayerCharacter.cs" />
-    <Compile Include="Assets\Scripts\Monster.cs" />
+    <Compile Include="Assets\Scripts\CameraMover.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
